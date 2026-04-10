@@ -1,6 +1,6 @@
 # Game-Project-Scala
 
-Scala-Projekt für ein Spielfeld (Konsolen-Ausgabe).
+Scala-Projekt für das Spiel Chess .
 
 ## Usage
 
