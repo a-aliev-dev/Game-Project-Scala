@@ -1,12 +1,11 @@
 # Game-Project-Scala
 
-Scala-Projekt für ein Spielfeld (Konsolen-Ausgabe).
+Scala-Projekt für das Spiel Fantastische Reiche(Fantasy Realms).
 
 ## Usage
 
 Dies ist ein normales sbt-Projekt.
 
-Yoooooooooooooooo!! Amil was here!!
 
 
 - Kompilieren: `sbt compile`
