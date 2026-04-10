@@ -6,6 +6,9 @@ Scala-Projekt für ein Spielfeld (Konsolen-Ausgabe).
 
 Dies ist ein normales sbt-Projekt.
 
+Yoooooooooooooooo!! Amil was here!!
+
+
 - Kompilieren: `sbt compile`
 - Starten: `sbt run`
 - REPL: `sbt console`
