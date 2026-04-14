@@ -2,6 +2,10 @@
 
 Scala-Projekt für das Spiel Fantastische Reiche(Fantasy Realms).
 
+
+
+Wir testen ein Merge Conflict
+
 ## Usage
 
 Dies ist ein normales sbt-Projekt.
