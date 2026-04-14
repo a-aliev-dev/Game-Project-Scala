@@ -7,14 +7,23 @@ case class Card(
   basePoints: Int
 )
 
+case class Hand(cards: List[Card]):
+  def names: List[String] =
+    cards.map(_.name)
+
+  def totalBasePoints: Int =
+    cards.map(_.basePoints).sum
+
+  def cardsOfType(t: CardType): List[Card] =
+    cards.filter(_.cardType == t)
+
 val ranger = Card("Ranger", CardType.Army, 5)
 val island = Card("Island", CardType.Flood, 14)
 val fireElemental = Card("Fire Elemental", CardType.Flame, 4)
 
-val hand = List(ranger, island, fireElemental)
+val hand = Hand(List(ranger, island, fireElemental))
 
 hand
-hand.map(_.name)
-hand.map(_.basePoints)
-hand.map(_.basePoints).sum
-hand.filter(_.cardType == CardType.Flame)
+hand.names
+hand.totalBasePoints
+hand.cardsOfType(CardType.Flame)
