@@ -2,9 +2,7 @@
 
 Scala-Projekt für das Spiel Fantastische Reiche(Fantasy Realms).
 
-
-
-Wir testen ein Merge Conflict
+Merge Conflict Test #1
 
 ## Usage
 
