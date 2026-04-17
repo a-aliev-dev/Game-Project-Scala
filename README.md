@@ -1,11 +1,12 @@
 # Game-Project-Scala
 
 Scala-Projekt für das Spiel Fantastische Reiche(Fantasy Realms).
-
+meine Änderung 
+Merge Conflict Test #2
 ## Usage
 
 Dies ist ein normales sbt-Projekt.
-meine Änderung 
+
 
 
 - Kompilieren: `sbt compile`
