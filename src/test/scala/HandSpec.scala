@@ -29,3 +29,21 @@ class HandSpec extends AnyWordSpec with Matchers:
       hand.cardsOfType(CardType.Wizard).shouldBe(Nil)
     }
   }
+
+  "An empty Hand" should {
+
+    "return no names" in {
+      val hand = Hand(Nil)
+      hand.names.shouldBe(Nil)
+    }
+
+    "have total base points of 0" in {
+      val hand = Hand(Nil)
+      hand.totalBasePoints.shouldBe(0)
+    }
+
+    "return no cards for any requested type" in {
+      val hand = Hand(Nil)
+      hand.cardsOfType(CardType.Flame).shouldBe(Nil)
+    }
+  }
