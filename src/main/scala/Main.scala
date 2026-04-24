@@ -1,3 +1,4 @@
+// $COVERAGE-OFF$
 @main def runGame(): Unit =
   val hand = List(
     Card("Ranger", CardType.Army, 5),
@@ -7,3 +8,4 @@
 
   val field = PlayingField("Spieler 1", hand)
   println(field.render)
+// $COVERAGE-ON$
