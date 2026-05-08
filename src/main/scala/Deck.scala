@@ -8,7 +8,6 @@ case class Deck(cards: List[Card]):
 
   def draw: (Option[Card], Deck) =
     cards match
-
       case Nil =>
         (None, this)
 
