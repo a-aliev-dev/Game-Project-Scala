@@ -1,3 +1,4 @@
+package model
 case class Player(name: String, hand: Hand):
 
   def addCard(card: Card): Player =

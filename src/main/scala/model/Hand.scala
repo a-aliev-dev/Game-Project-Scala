@@ -1,3 +1,4 @@
+package model
 case class Hand(cards: List[Card]):
   def names: List[String] =
     cards.map(_.name)

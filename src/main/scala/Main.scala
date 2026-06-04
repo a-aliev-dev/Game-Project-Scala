@@ -1,4 +1,7 @@
-// $COVERAGE-OFF$
+
+import model.*
+import controller.GameController
+import view.TextUI
 import scala.io.StdIn.readLine
 
 @main def runGame(): Unit =

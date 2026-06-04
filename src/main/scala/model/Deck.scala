@@ -1,3 +1,4 @@
+package model
 case class Deck(cards: List[Card]):
 
   def isEmpty: Boolean =

@@ -1,3 +1,4 @@
+package model
 case class PlayingField(playerName: String, hand: List[Card]):
   def render: String =
     val handOutput =

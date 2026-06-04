@@ -1,3 +1,4 @@
+package model
 object Cards:
   val allCards: List[Card] = List(
     // Army

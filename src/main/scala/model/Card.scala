@@ -1,3 +1,4 @@
+package model
 case class Card(
   name: String,
   cardType: CardType,

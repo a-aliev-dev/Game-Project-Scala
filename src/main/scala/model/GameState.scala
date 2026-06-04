@@ -1,3 +1,4 @@
+package model
 case class GameState(
   players: List[Player],
   currentPlayerIndex: Int,
