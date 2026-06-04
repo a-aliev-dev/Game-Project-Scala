@@ -1,6 +1,7 @@
 package controller
 
 import model.*
+import model.score.*
 
 class GameController(playerName1: String, playerName2: String):
 
@@ -13,6 +14,9 @@ class GameController(playerName1: String, playerName2: String):
       currentPlayerIndex = 0,
       deck = Deck.shuffled(Cards.allCards)
     )
+
+  private val scoreStrategy: ScoreStrategy =
+    BaseScoreStrategy
 
   def currentPlayer: Player =
     gameState.currentPlayer
@@ -37,7 +41,7 @@ class GameController(playerName1: String, playerName2: String):
     gameState.deck.size
 
   def currentPlayerPoints: Int =
-    gameState.currentPlayer.basePoints
+    scoreStrategy.calculate(gameState.currentPlayer.hand)
 
   def currentPlayerHand: Hand =
     gameState.currentPlayer.hand

@@ -1,9 +1,12 @@
 package model
+
+import model.state.*
+
 case class GameState(
   players: List[Player],
   currentPlayerIndex: Int,
   deck: Deck,
-  running: Boolean = true
+  status: GameStatus = Running
 ):
 
   def currentPlayer: Player =
@@ -41,4 +44,7 @@ case class GameState(
     copy(currentPlayerIndex = nextPlayerIndex)
 
   def stop: GameState =
-    copy(running = false)
+    copy(status = Finished)
+
+  def running: Boolean =
+    status == Running
