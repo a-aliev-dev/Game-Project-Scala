@@ -1,0 +1,29 @@
+name: Scala CI
+
+on:
+  push:
+    branches: [ main, amil-space ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Compile
+        run: sbt compile
+
+      - name: Test
+        run: sbt test
+
+      - name: Coverage
+        run: sbt clean coverage test coverageReport
