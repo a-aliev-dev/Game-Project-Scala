@@ -14,3 +14,4 @@ Dies ist ein normales sbt-Projekt.
 - Coverage: `sbt clean coverage test coverageReport`
 - Starten: `sbt run`
 - REPL: `sbt console`
+- Mutation Testing: `sbt stryker`
