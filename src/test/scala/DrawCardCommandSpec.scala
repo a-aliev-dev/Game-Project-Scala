@@ -10,14 +10,14 @@ class DrawCardCommandSpec extends AnyWordSpec with Matchers:
       val controller = GameController("A", "B")
       val command = new DrawCardCommand(controller)
 
-      val cardsBefore = controller.currentPlayerHand.cards.size
+      controller.currentPlayerHand.cards.size shouldBe 0
 
       command.doStep()
 
-      controller.currentPlayerHand.cards.size shouldBe cardsBefore + 1
+      controller.currentPlayerHand.cards.size shouldBe 1
     }
 
-    "restore the previous state when undone" in {
+    "store and restore the previous state when undone" in {
       val controller = GameController("A", "B")
       val command = new DrawCardCommand(controller)
 
@@ -29,20 +29,21 @@ class DrawCardCommandSpec extends AnyWordSpec with Matchers:
       controller.getGameState shouldBe stateBefore
     }
 
-    "redo the draw action" in {
+    "redo the draw action after undo" in {
       val controller = GameController("A", "B")
       val command = new DrawCardCommand(controller)
 
       command.doStep()
-      val sizeAfterDo = controller.currentPlayerHand.cards.size
+      val handAfterDraw = controller.currentPlayerHand
 
       command.undoStep()
-      command.redoStep()
+      controller.currentPlayerHand.cards shouldBe Nil
 
-      controller.currentPlayerHand.cards.size shouldBe sizeAfterDo
+      command.redoStep()
+      controller.currentPlayerHand shouldBe handAfterDraw
     }
 
-    "not fail when undo is called before execution" in {
+    "not fail when undo is called before doStep" in {
       val controller = GameController("A", "B")
       val command = new DrawCardCommand(controller)
 

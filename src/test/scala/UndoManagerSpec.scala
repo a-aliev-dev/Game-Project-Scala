@@ -50,13 +50,27 @@ class UndoManagerSpec extends AnyWordSpec with Matchers:
       command.redoCount shouldBe 1
     }
 
-    "do nothing when undo stack is empty" in {
+    "clear the redo stack when a new command is executed" in {
+      val manager = new UndoManager()
+      val firstCommand = new TestCommand()
+      val secondCommand = new TestCommand()
+
+      manager.doStep(firstCommand)
+      manager.undoStep()
+      manager.doStep(secondCommand)
+      manager.redoStep()
+
+      firstCommand.redoCount shouldBe 0
+      secondCommand.doCount shouldBe 1
+    }
+
+    "not fail when undo is called on an empty stack" in {
       val manager = new UndoManager()
 
       noException should be thrownBy manager.undoStep()
     }
 
-    "do nothing when redo stack is empty" in {
+    "not fail when redo is called on an empty stack" in {
       val manager = new UndoManager()
 
       noException should be thrownBy manager.redoStep()

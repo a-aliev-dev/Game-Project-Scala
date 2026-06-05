@@ -8,12 +8,12 @@ class ScoreStrategySpec extends AnyWordSpec with Matchers:
   "BaseScoreStrategy" should {
 
     "calculate the sum of base points in a hand" in {
-      val cards = List(
-        Card("Ranger", CardType.Army, 5),
-        Card("Island", CardType.Flood, 14)
+      val hand = Hand(
+        List(
+          Card("Ranger", CardType.Army, 5),
+          Card("Island", CardType.Flood, 14)
+        )
       )
-
-      val hand = Hand(cards)
 
       BaseScoreStrategy.calculate(hand) shouldBe 19
     }
