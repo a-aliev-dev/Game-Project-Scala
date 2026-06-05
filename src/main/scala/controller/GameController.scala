@@ -2,8 +2,9 @@ package controller
 
 import model.*
 import model.score.*
+import util.Observable
 
-class GameController(playerName1: String, playerName2: String):
+class GameController(playerName1: String, playerName2: String) extends Observable:
 
   private var gameState: GameState =
     GameState(
@@ -26,6 +27,7 @@ class GameController(playerName1: String, playerName2: String):
 
   def setGameState(state: GameState): Unit =
     gameState = state
+    notifyObservers()
 
   def currentPlayer: Player =
     gameState.currentPlayer
@@ -45,6 +47,7 @@ class GameController(playerName1: String, playerName2: String):
       None
     else
       gameState = gameState.drawCardForCurrentPlayer
+      notifyObservers()
       gameState.currentPlayer.hand.cards.lastOption
 
   def undo(): Unit =
@@ -55,9 +58,11 @@ class GameController(playerName1: String, playerName2: String):
 
   def switchPlayer(): Unit =
     gameState = gameState.switchPlayer
+    notifyObservers()
 
   def stopGame(): Unit =
     gameState = gameState.stop
+    notifyObservers()
 
   def isRunning: Boolean =
     gameState.running

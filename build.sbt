@@ -7,5 +7,8 @@ lazy val root = project
     version := "0.1.0-SNAPSHOT",
     scalaVersion := scala3Version,
 
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test,
+
+    coverageExcludedPackages := "Main\\$package;view.*",
+    coverageExcludedFiles := ".*Main.scala"
   )

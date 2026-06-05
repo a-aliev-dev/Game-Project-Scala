@@ -4,6 +4,9 @@ import org.scalatest.matchers.should.Matchers
 
 class GameStateSpec extends AnyWordSpec with Matchers:
 
+  private val PlayerOneName = "Spieler 1"
+  private val PlayerTwoName = "Spieler 2"
+
   val ranger = Card("Ranger", CardType.Army, 5)
   val island = Card("Island", CardType.Flood, 14)
   val fireElemental = Card("Fire Elemental", CardType.Flame, 4)
@@ -11,8 +14,8 @@ class GameStateSpec extends AnyWordSpec with Matchers:
   "A GameState" should {
 
     "draw one card from the deck and add it to the current player's hand" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger, island))
 
       val gameState = GameState(
@@ -29,8 +32,8 @@ class GameStateSpec extends AnyWordSpec with Matchers:
     }
 
     "not change when drawing from an empty deck" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(Nil)
 
       val gameState = GameState(
@@ -45,8 +48,8 @@ class GameStateSpec extends AnyWordSpec with Matchers:
     }
 
     "draw a card for a specific player" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger, island))
 
       val gameState = GameState(
@@ -63,8 +66,8 @@ class GameStateSpec extends AnyWordSpec with Matchers:
     }
 
     "deal starting cards to both players" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger, island, fireElemental))
 
       val gameState = GameState(
@@ -81,8 +84,8 @@ class GameStateSpec extends AnyWordSpec with Matchers:
     }
 
     "switch to the next player" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger))
 
       val gameState = GameState(
@@ -94,12 +97,12 @@ class GameStateSpec extends AnyWordSpec with Matchers:
       val updatedState = gameState.switchPlayer
 
       updatedState.currentPlayerIndex.shouldBe(1)
-      updatedState.currentPlayer.name.shouldBe("Spieler 2")
+      updatedState.currentPlayer.name.shouldBe(PlayerTwoName)
     }
 
     "switch back to the first player after the second player" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger))
 
       val gameState = GameState(
@@ -111,12 +114,12 @@ class GameStateSpec extends AnyWordSpec with Matchers:
       val updatedState = gameState.switchPlayer
 
       updatedState.currentPlayerIndex.shouldBe(0)
-      updatedState.currentPlayer.name.shouldBe("Spieler 1")
+      updatedState.currentPlayer.name.shouldBe(PlayerOneName)
     }
 
     "stop the game" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger))
 
       val gameState = GameState(
@@ -131,8 +134,8 @@ class GameStateSpec extends AnyWordSpec with Matchers:
     }
 
     "be running by default" in {
-      val player1 = Player("Spieler 1", Hand(Nil))
-      val player2 = Player("Spieler 2", Hand(Nil))
+      val player1 = Player(PlayerOneName, Hand(Nil))
+      val player2 = Player(PlayerTwoName, Hand(Nil))
       val deck = Deck(List(ranger))
 
       val gameState = GameState(

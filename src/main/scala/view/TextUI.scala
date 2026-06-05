@@ -2,8 +2,12 @@ package view
 
 import controller.GameController
 import scala.util.Try
+import util.Observer
 
-class TextUI(controller: GameController):
+class TextUI(controller: GameController) extends Observer:
+
+  override def update(): Unit =
+    println("Spielzustand wurde aktualisiert.")
 
   def start(): Unit =
     var running = true

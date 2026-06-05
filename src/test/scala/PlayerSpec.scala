@@ -4,13 +4,15 @@ import org.scalatest.matchers.should.Matchers
 
 class PlayerSpec extends AnyWordSpec with Matchers:
 
+  private val PlayerOneName = "Spieler 1"
+
   val ranger = Card("Ranger", CardType.Army, 5)
   val island = Card("Island", CardType.Flood, 14)
 
   "A Player" should {
 
     "add a card to the hand" in {
-      val player = Player("Spieler 1", Hand(List(ranger)))
+      val player = Player(PlayerOneName, Hand(List(ranger)))
 
       val updatedPlayer = player.addCard(island)
 
@@ -18,7 +20,7 @@ class PlayerSpec extends AnyWordSpec with Matchers:
     }
 
     "not change the original player when adding a card" in {
-      val player = Player("Spieler 1", Hand(List(ranger)))
+      val player = Player(PlayerOneName, Hand(List(ranger)))
 
       val updatedPlayer = player.addCard(island)
 
@@ -27,15 +29,14 @@ class PlayerSpec extends AnyWordSpec with Matchers:
     }
 
     "calculate base points from the hand" in {
-      val player = Player("Spieler 1", Hand(List(ranger, island)))
+      val player = Player(PlayerOneName, Hand(List(ranger, island)))
 
       player.basePoints.shouldBe(19)
     }
 
     "return 0 base points when the hand is empty" in {
-      val player = Player("Spieler 1", Hand(Nil))
+      val player = Player(PlayerOneName, Hand(Nil))
 
       player.basePoints.shouldBe(0)
     }
   }
-  

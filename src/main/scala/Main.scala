@@ -16,7 +16,10 @@ import scala.io.StdIn.readLine
   val playerName2 =
     if enteredName2.trim.isEmpty then "Spieler 2" else enteredName2.trim
 
+  
   val controller = GameController(playerName1, playerName2)
   val ui = TextUI(controller)
+
+  controller.addObserver(ui)
 
   ui.start()
