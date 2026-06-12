@@ -8,7 +8,7 @@ import util.Observable
 class GameController(
     playerName1: String,
     playerName2: String,
-    private val scoreStrategy: ScoreStrategy = BaseScoreStrategy
+    private val scoreStrategy: ScoreStrategy = FantasyRealmsScoreStrategy
 ) extends Observable:
 
   private var gameState: GameState =

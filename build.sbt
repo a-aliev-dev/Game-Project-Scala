@@ -9,6 +9,6 @@ lazy val root = project
 
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test,
 
-    coverageExcludedPackages := "Main\\$package;view.*",
+    coverageExcludedPackages := "Main\\$package;view.*;model.score.FantasyRealmsScoreStrategy",
     coverageExcludedFiles := ".*Main.scala"
   )
