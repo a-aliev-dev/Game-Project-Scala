@@ -5,9 +5,8 @@ import org.scalatest.matchers.should.Matchers
 class PlayerSpec extends AnyWordSpec with Matchers:
 
   private val PlayerOneName = "Spieler 1"
-
-  val ranger = Card("Ranger", CardType.Army, 5)
-  val island = Card("Island", CardType.Flood, 14)
+  private val ranger = Card("Ranger", CardType.Army, 5)
+  private val island = Card("Island", CardType.Flood, 14)
 
   "A Player" should {
 
@@ -16,7 +15,7 @@ class PlayerSpec extends AnyWordSpec with Matchers:
 
       val updatedPlayer = player.addCard(island)
 
-      updatedPlayer.hand.cards.shouldBe(List(ranger, island))
+      updatedPlayer.hand.cards shouldBe List(ranger, island)
     }
 
     "not change the original player when adding a card" in {
@@ -24,19 +23,37 @@ class PlayerSpec extends AnyWordSpec with Matchers:
 
       val updatedPlayer = player.addCard(island)
 
-      player.hand.cards.shouldBe(List(ranger))
-      updatedPlayer.hand.cards.shouldBe(List(ranger, island))
+      player.hand.cards shouldBe List(ranger)
+      updatedPlayer.hand.cards shouldBe List(ranger, island)
+    }
+
+    "remove a card from the hand" in {
+      val player = Player(PlayerOneName, Hand(List(ranger, island)))
+
+      val (removedCard, updatedPlayer) = player.removeCardAt(1)
+
+      removedCard shouldBe Some(island)
+      updatedPlayer.hand.cards shouldBe List(ranger)
+    }
+
+    "not remove a card for an invalid index" in {
+      val player = Player(PlayerOneName, Hand(List(ranger)))
+
+      val (removedCard, updatedPlayer) = player.removeCardAt(10)
+
+      removedCard shouldBe None
+      updatedPlayer shouldBe player
     }
 
     "calculate base points from the hand" in {
       val player = Player(PlayerOneName, Hand(List(ranger, island)))
 
-      player.basePoints.shouldBe(19)
+      player.basePoints shouldBe 19
     }
 
     "return 0 base points when the hand is empty" in {
       val player = Player(PlayerOneName, Hand(Nil))
 
-      player.basePoints.shouldBe(0)
+      player.basePoints shouldBe 0
     }
   }

@@ -3,10 +3,22 @@ import org.scalatest.matchers.should.Matchers
 import controller.GameController
 import util.Observer
 import model.*
+import model.score.*
+import model.state.*
 
 class GameControllerSpec extends AnyWordSpec with Matchers:
 
   "A GameController" should {
+
+    "deal starting cards" in {
+      val controller = GameController("A", "B")
+
+      controller.dealStartingCards(2)
+
+      controller.getGameState.players(0).hand.cards.size shouldBe 2
+      controller.getGameState.players(1).hand.cards.size shouldBe 2
+      controller.currentPhase shouldBe MustDraw
+    }
 
     "notify observers when a card is drawn" in {
       val controller = GameController("A", "B")
@@ -77,10 +89,16 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
       controller.currentPlayerHand.cards shouldBe Nil
     }
 
-    "return the current player's points" in {
+    "return the current player's points using the default score strategy" in {
       val controller = GameController("A", "B")
 
       controller.currentPlayerPoints shouldBe 0
+    }
+
+    "use an injected score strategy" in {
+      val controller = GameController("A", "B", EmptyHandBonusStrategy)
+
+      controller.currentPlayerPoints shouldBe 10
     }
 
     "return the deck size" in {
@@ -96,6 +114,15 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
 
       drawnCard should not be empty
       controller.currentPlayerHand.cards.size shouldBe 1
+      controller.currentPhase shouldBe MustDiscard
+    }
+
+    "not draw twice in the same turn" in {
+      val controller = GameController("A", "B")
+
+      controller.drawCard()
+
+      controller.drawCard() shouldBe None
     }
 
     "draw a card directly and return it" in {
@@ -105,6 +132,7 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
 
       drawnCard should not be empty
       controller.currentPlayerHand.cards.size shouldBe 1
+      controller.currentPhase shouldBe MustDiscard
     }
 
     "return None when drawing directly from an empty deck" in {
@@ -141,6 +169,73 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
       controller.drawCard() shouldBe None
     }
 
+    "draw from discard pile" in {
+      val controller = GameController("A", "B")
+      val card = Card("Ranger", CardType.Army, 5)
+
+      val stateWithDiscard =
+        controller.getGameState.copy(discardPile = List(card), turnPhase = MustDraw)
+
+      controller.setGameState(stateWithDiscard)
+
+      controller.drawFromDiscardPile(0) shouldBe Some(card)
+      controller.currentPlayerHand.cards shouldBe List(card)
+      controller.discardPile shouldBe Nil
+      controller.currentPhase shouldBe MustDiscard
+    }
+
+    "not draw from discard pile with invalid index" in {
+      val controller = GameController("A", "B")
+
+      controller.drawFromDiscardPile(99) shouldBe None
+    }
+
+    "discard a card and switch player" in {
+      val controller = GameController("A", "B")
+
+      controller.drawCard()
+      val cardToDiscard = controller.currentPlayerHand.cards.head
+
+      controller.discardCardFromCurrentPlayer(0) shouldBe Some(cardToDiscard)
+      controller.discardPile shouldBe List(cardToDiscard)
+      controller.currentPlayer.name shouldBe "B"
+      controller.currentPhase shouldBe MustDraw
+    }
+
+    "not discard before drawing" in {
+      val controller = GameController("A", "B")
+
+      controller.discardCardFromCurrentPlayer(0) shouldBe None
+    }
+
+    "not discard invalid index" in {
+      val controller = GameController("A", "B")
+
+      controller.drawCard()
+
+      controller.discardCardFromCurrentPlayer(99) shouldBe None
+    }
+
+    "return all player points" in {
+      val controller = GameController("A", "B")
+
+      controller.allPlayerPoints.map(_._1) shouldBe List("A", "B")
+    }
+
+    "return no winner while the game is running" in {
+      val controller = GameController("A", "B")
+
+      controller.winnerName shouldBe None
+    }
+
+    "return a winner when the game is stopped" in {
+      val controller = GameController("A", "B")
+
+      controller.stopGame()
+
+      controller.winnerName should not be empty
+    }
+
     "switch to the next player" in {
       val controller = GameController("A", "B")
 
@@ -160,6 +255,7 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
       controller.undo()
 
       controller.currentPlayerHand.cards.size shouldBe 0
+      controller.currentPhase shouldBe MustDraw
     }
 
     "redo a drawn card after undo" in {

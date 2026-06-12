@@ -1,6 +1,7 @@
 package view
 
 import controller.GameController
+import model.state.*
 import scala.util.Try
 import util.Observer
 
@@ -12,16 +13,20 @@ class TextUI(controller: GameController) extends Observer:
   def start(): Unit =
     var running = true
 
-    while running do
+    while running && controller.isRunning do
       println()
       println(s"=== ${controller.currentPlayer.name} ist am Zug ===")
-      println("1. Karte ziehen")
-      println("2. Hand anzeigen")
-      println("3. Punkte anzeigen")
-      println("4. Anzahl Karten im Deck anzeigen")
-      println("5. Zug beenden")
-      println("6. Undo")
-      println("7. Redo")
+      println(s"Phase: ${phaseText}")
+      println("1. Karte vom Deck ziehen")
+      println("2. Karte vom Ablagestapel nehmen")
+      println("3. Karte aus Hand abwerfen")
+      println("4. Hand anzeigen")
+      println("5. Ablagestapel anzeigen")
+      println("6. Punkte aktueller Spieler anzeigen")
+      println("7. Punkte aller Spieler anzeigen")
+      println("8. Anzahl Karten im Deck anzeigen")
+      println("9. Undo")
+      println("10. Redo")
       println("0. Beenden")
       print("Auswahl: ")
 
@@ -32,40 +37,113 @@ class TextUI(controller: GameController) extends Observer:
         case Some(1) =>
           controller.drawCard() match
             case Some(card) =>
-              println(s"Gezogene Karte: ${card.name} (${card.cardType}, ${card.basePoints})")
+              println(s"Gezogene Karte: ${formatCard(card)}")
             case None =>
-              println("Das Deck ist leer.")
+              println("Du kannst gerade keine Karte vom Deck ziehen.")
 
         case Some(2) =>
-          if controller.currentPlayerHand.cards.isEmpty then
-            println("Keine Karten auf der Hand.")
-          else
-            controller.currentPlayerHand.cards.zipWithIndex.foreach { case (card, index) =>
-              println(s"${index + 1}. ${card.name} (${card.cardType}, ${card.basePoints})")
-            }
+          showDiscardPile()
+          if controller.discardPile.nonEmpty then
+            print("Welche Karte möchtest du nehmen? Nummer: ")
+            val index = readIndex()
+            controller.drawFromDiscardPile(index) match
+              case Some(card) =>
+                println(s"Karte aufgenommen: ${formatCard(card)}")
+              case None =>
+                println("Diese Karte kann nicht genommen werden.")
 
         case Some(3) =>
-          println(s"Gesamtpunkte: ${controller.currentPlayerPoints}")
+          showHand()
+          if controller.currentPlayerHand.cards.nonEmpty then
+            print("Welche Karte möchtest du abwerfen? Nummer: ")
+            val index = readIndex()
+            controller.discardCardFromCurrentPlayer(index) match
+              case Some(card) =>
+                println(s"Abgeworfene Karte: ${formatCard(card)}")
+                if controller.isRunning then
+                  println(s"Jetzt ist ${controller.currentPlayer.name} dran.")
+                else
+                  printGameResult()
+                  running = false
+              case None =>
+                println("Du kannst gerade keine Karte abwerfen.")
 
         case Some(4) =>
-          println(s"Karten im Deck: ${controller.deckSize}")
+          showHand()
 
         case Some(5) =>
-          controller.switchPlayer()
-          println(s"Zug beendet. Jetzt ist ${controller.currentPlayer.name} dran.")
+          showDiscardPile()
 
         case Some(6) =>
+          println(s"Gesamtpunkte: ${controller.currentPlayerPoints}")
+
+        case Some(7) =>
+          showAllPoints()
+
+        case Some(8) =>
+          println(s"Karten im Deck: ${controller.deckSize}")
+
+        case Some(9) =>
           controller.undo()
           println("Undo ausgefuehrt.")
 
-        case Some(7) =>
+        case Some(10) =>
           controller.redo()
           println("Redo ausgefuehrt.")
 
         case Some(0) =>
           controller.stopGame()
           println("Spiel beendet.")
+          printGameResult()
           running = false
 
         case _ =>
-          println("Ungueltige Eingabe. Bitte waehle 1, 2, 3, 4, 5, 6, 7 oder 0.")
+          println("Ungueltige Eingabe. Bitte waehle eine Zahl aus dem Menue.")
+
+    if !controller.isRunning then
+      printGameResult()
+
+  private def phaseText: String =
+    controller.currentPhase match
+      case MustDraw =>
+        "Karte ziehen"
+      case MustDiscard =>
+        "Karte abwerfen"
+
+  private def readIndex(): Int =
+    val input = scala.io.StdIn.readLine()
+    Try(input.trim.toInt).toOption.getOrElse(0) - 1
+
+  private def showHand(): Unit =
+    val cards = controller.currentPlayerHand.cards
+
+    if cards.isEmpty then
+      println("Keine Karten auf der Hand.")
+    else
+      cards.zipWithIndex.foreach { case (card, index) =>
+        println(s"${index + 1}. ${formatCard(card)}")
+      }
+
+  private def showDiscardPile(): Unit =
+    val cards = controller.discardPile
+
+    if cards.isEmpty then
+      println("Der Ablagestapel ist leer.")
+    else
+      cards.zipWithIndex.foreach { case (card, index) =>
+        println(s"${index + 1}. ${formatCard(card)}")
+      }
+
+  private def showAllPoints(): Unit =
+    controller.allPlayerPoints.foreach { case (name, points) =>
+      println(s"$name: $points Punkte")
+    }
+
+  private def printGameResult(): Unit =
+    println()
+    println("=== Endstand ===")
+    showAllPoints()
+    controller.winnerName.foreach(winner => println(s"Gewinner: $winner"))
+
+  private def formatCard(card: model.Card): String =
+    s"${card.name} (${card.cardType}, ${card.basePoints})"
