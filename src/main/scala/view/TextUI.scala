@@ -4,6 +4,7 @@ import controller.GameController
 import model.state.*
 import scala.util.Try
 import util.Observer
+import view.render.*
 
 class TextUI(controller: GameController) extends Observer:
 
@@ -115,24 +116,10 @@ class TextUI(controller: GameController) extends Observer:
     Try(input.trim.toInt).toOption.getOrElse(0) - 1
 
   private def showHand(): Unit =
-    val cards = controller.currentPlayerHand.cards
-
-    if cards.isEmpty then
-      println("Keine Karten auf der Hand.")
-    else
-      cards.zipWithIndex.foreach { case (card, index) =>
-        println(s"${index + 1}. ${formatCard(card)}")
-      }
+  println(HandRenderer(controller.currentPlayer.name, controller.currentPlayerHand.cards).render())
 
   private def showDiscardPile(): Unit =
-    val cards = controller.discardPile
-
-    if cards.isEmpty then
-      println("Der Ablagestapel ist leer.")
-    else
-      cards.zipWithIndex.foreach { case (card, index) =>
-        println(s"${index + 1}. ${formatCard(card)}")
-      }
+  println(DiscardPileRenderer(controller.discardPile).render())
 
   private def showAllPoints(): Unit =
     controller.allPlayerPoints.foreach { case (name, points) =>

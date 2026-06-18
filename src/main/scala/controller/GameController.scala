@@ -12,14 +12,7 @@ class GameController(
 ) extends Observable:
 
   private var gameState: GameState =
-    GameState(
-      players = List(
-        Player(playerName1, Hand(Nil)),
-        Player(playerName2, Hand(Nil))
-      ),
-      currentPlayerIndex = 0,
-      deck = Deck.shuffled(Cards.allCards)
-    )
+  GameStateFactory.createDefaultGameState(playerName1, playerName2)
 
   private val undoManager =
     new UndoManager()
