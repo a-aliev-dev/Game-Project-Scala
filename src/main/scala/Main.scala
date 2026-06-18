@@ -1,5 +1,6 @@
 import controller.GameController
 import view.TextUI
+import view.GameGUI
 import scala.io.StdIn.readLine
 
 @main def runGame(): Unit =
@@ -17,9 +18,14 @@ import scala.io.StdIn.readLine
     if enteredName2.trim.isEmpty then "Spieler 2" else enteredName2.trim
 
   val controller = GameController(playerName1, playerName2)
-  val ui = TextUI(controller)
 
-  controller.addObserver(ui)
+  val tui = TextUI(controller)
+  val gui = GameGUI(controller)
+
+  controller.addObserver(tui)
+  controller.addObserver(gui)
+
   controller.dealStartingCards(7)
 
-  ui.start()
+  gui.showGUI()
+  tui.start()

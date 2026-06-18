@@ -13,6 +13,7 @@ class TextUI(controller: GameController) extends Observer:
 
   def start(): Unit =
     var running = true
+    var resultPrinted = false
 
     while running && controller.isRunning do
       println()
@@ -45,7 +46,7 @@ class TextUI(controller: GameController) extends Observer:
         case Some(2) =>
           showDiscardPile()
           if controller.discardPile.nonEmpty then
-            print("Welche Karte möchtest du nehmen? Nummer: ")
+            print("Welche Karte moechtest du nehmen? Nummer: ")
             val index = readIndex()
             controller.drawFromDiscardPile(index) match
               case Some(card) =>
@@ -56,7 +57,7 @@ class TextUI(controller: GameController) extends Observer:
         case Some(3) =>
           showHand()
           if controller.currentPlayerHand.cards.nonEmpty then
-            print("Welche Karte möchtest du abwerfen? Nummer: ")
+            print("Welche Karte moechtest du abwerfen? Nummer: ")
             val index = readIndex()
             controller.discardCardFromCurrentPlayer(index) match
               case Some(card) =>
@@ -65,6 +66,7 @@ class TextUI(controller: GameController) extends Observer:
                   println(s"Jetzt ist ${controller.currentPlayer.name} dran.")
                 else
                   printGameResult()
+                  resultPrinted = true
                   running = false
               case None =>
                 println("Du kannst gerade keine Karte abwerfen.")
@@ -96,12 +98,13 @@ class TextUI(controller: GameController) extends Observer:
           controller.stopGame()
           println("Spiel beendet.")
           printGameResult()
+          resultPrinted = true
           running = false
 
         case _ =>
           println("Ungueltige Eingabe. Bitte waehle eine Zahl aus dem Menue.")
 
-    if !controller.isRunning then
+    if !controller.isRunning && !resultPrinted then
       printGameResult()
 
   private def phaseText: String =
@@ -116,10 +119,10 @@ class TextUI(controller: GameController) extends Observer:
     Try(input.trim.toInt).toOption.getOrElse(0) - 1
 
   private def showHand(): Unit =
-  println(HandRenderer(controller.currentPlayer.name, controller.currentPlayerHand.cards).render())
+    println(HandRenderer(controller.currentPlayer.name, controller.currentPlayerHand.cards).render())
 
   private def showDiscardPile(): Unit =
-  println(DiscardPileRenderer(controller.discardPile).render())
+    println(DiscardPileRenderer(controller.discardPile).render())
 
   private def showAllPoints(): Unit =
     controller.allPlayerPoints.foreach { case (name, points) =>
