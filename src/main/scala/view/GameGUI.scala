@@ -7,6 +7,7 @@ import scala.swing.*
 import scala.swing.event.*
 import util.Observer
 import java.awt.{Color, Dimension, Font}
+import javax.swing.ScrollPaneConstants
 
 class GameGUI(controller: GameController) extends MainFrame with Observer:
 
@@ -16,23 +17,23 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
   // ===== Header =====
 
   private val titleLabel = new Label("Fantasy Realms")
-  titleLabel.peer.setFont(new Font("Arial", Font.BOLD, 30))
+  titleLabel.peer.setFont(new Font("Arial", Font.BOLD, 26))
   titleLabel.horizontalAlignment = Alignment.Center
 
   private val currentPlayerLabel = new Label("")
-  currentPlayerLabel.peer.setFont(new Font("Arial", Font.BOLD, 20))
+  currentPlayerLabel.peer.setFont(new Font("Arial", Font.BOLD, 17))
   currentPlayerLabel.horizontalAlignment = Alignment.Center
 
   private val phaseLabel = new Label("")
-  phaseLabel.peer.setFont(new Font("Arial", Font.PLAIN, 18))
+  phaseLabel.peer.setFont(new Font("Arial", Font.PLAIN, 17))
   phaseLabel.horizontalAlignment = Alignment.Center
 
   private val deckLabel = new Label("")
-  deckLabel.peer.setFont(new Font("Arial", Font.PLAIN, 18))
+  deckLabel.peer.setFont(new Font("Arial", Font.PLAIN, 17))
   deckLabel.horizontalAlignment = Alignment.Center
 
   private val statusLabel = new Label("")
-  statusLabel.peer.setFont(new Font("Arial", Font.PLAIN, 18))
+  statusLabel.peer.setFont(new Font("Arial", Font.PLAIN, 17))
   statusLabel.horizontalAlignment = Alignment.Center
 
   // ===== Card Panels =====
@@ -77,28 +78,34 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
       border = Swing.EmptyBorder(20, 25, 20, 25)
 
       contents += titleLabel
-      contents += Swing.VStrut(10)
-      contents += currentPlayerLabel
-      contents += phaseLabel
-      contents += deckLabel
-      contents += statusLabel
-      contents += Swing.VStrut(25)
+      contents += Swing.VStrut(8)
+
+      contents += new FlowPanel:
+        contents += currentPlayerLabel
+        contents += Swing.HStrut(25)
+        contents += phaseLabel
+        contents += Swing.HStrut(25)
+        contents += deckLabel
+        contents += Swing.HStrut(25)
+        contents += statusLabel
+
+      contents += Swing.VStrut(15)
 
       contents += sectionLabel("Spielerhand:")
       contents += new ScrollPane(handCardsPanel):
-        preferredSize = new Dimension(1150, 290)
+        preferredSize = new Dimension(1250, 300)
 
       contents += Swing.VStrut(18)
 
       contents += sectionLabel("Ablagestapel:")
       contents += new ScrollPane(discardCardsPanel):
-        preferredSize = new Dimension(1150, 250)
+        preferredSize = new Dimension(1250, 300)
 
       contents += Swing.VStrut(18)
 
       contents += sectionLabel("Punkte:")
       contents += new ScrollPane(pointsArea):
-        preferredSize = new Dimension(1150, 90)
+        preferredSize = new Dimension(1000, 60)
     ) = BorderPanel.Position.Center
 
     layout(new GridPanel(4, 1):
@@ -325,7 +332,9 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
 
       case CardType.Flame =>
         new Color(255, 220, 185)
-
+        
+      case CardType.Wild =>
+        new Color(255, 245, 200)
   // ===== Helpers =====
 
   private def sectionLabel(text: String): Label =
