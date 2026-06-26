@@ -1,0 +1,330 @@
+<gameState>
+      <players>
+        <player>
+      <name>Ali</name>
+      <hand>
+      <cards>
+        <card>
+      <name>Warhorse</name>
+      <cardType>Beast</cardType>
+      <basePoints>6</basePoints>
+      <bonus>+14 with any Leader or Wizard</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Forge</name>
+      <cardType>Flame</cardType>
+      <basePoints>9</basePoints>
+      <bonus>+9 for each Weapon and Artifact</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Fountain of Life</name>
+      <cardType>Flood</cardType>
+      <basePoints>1</basePoints>
+      <bonus>Adds base strength of one Weapon, Flood, Flame, Land, or Weather</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Magic Wand</name>
+      <cardType>Weapon</cardType>
+      <basePoints>1</basePoints>
+      <bonus>+25 with any Wizard</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Mountain</name>
+      <cardType>Land</cardType>
+      <basePoints>9</basePoints>
+      <bonus>Clears penalties on Floods</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Bell Tower</name>
+      <cardType>Land</cardType>
+      <basePoints>8</basePoints>
+      <bonus>+15 with any Wizard</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Book of Changes</name>
+      <cardType>Artifact</cardType>
+      <basePoints>3</basePoints>
+      <bonus>May change the suit of one other card</bonus>
+      <penalty></penalty>
+    </card>
+      </cards>
+    </hand>
+    </player><player>
+      <name>Amil</name>
+      <hand>
+      <cards>
+        <card>
+      <name>Warlock Lord</name>
+      <cardType>Wizard</cardType>
+      <basePoints>25</basePoints>
+      <bonus></bonus>
+      <penalty>-10 for each Leader and other Wizard</penalty>
+    </card><card>
+      <name>Cavern</name>
+      <cardType>Land</cardType>
+      <basePoints>6</basePoints>
+      <bonus>+25 with Dragon or Dwarvish Infantry; clears penalties on Weather</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Basilisk</name>
+      <cardType>Beast</cardType>
+      <basePoints>35</basePoints>
+      <bonus></bonus>
+      <penalty>Blanks all Armies, Leaders, and other Beasts</penalty>
+    </card><card>
+      <name>Air Elemental</name>
+      <cardType>Weather</cardType>
+      <basePoints>4</basePoints>
+      <bonus>+15 for each Weather</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Warship</name>
+      <cardType>Weapon</cardType>
+      <basePoints>23</basePoints>
+      <bonus></bonus>
+      <penalty>Blanked unless with any Flood</penalty>
+    </card><card>
+      <name>Elven Archers</name>
+      <cardType>Army</cardType>
+      <basePoints>10</basePoints>
+      <bonus>+5 for each Weather</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Necromancer</name>
+      <cardType>Wizard</cardType>
+      <basePoints>3</basePoints>
+      <bonus>May take one Army, Leader, Wizard, or Beast from discard at end</bonus>
+      <penalty></penalty>
+    </card>
+      </cards>
+    </hand>
+    </player>
+      </players>
+      <currentPlayerIndex>0</currentPlayerIndex>
+      <deck>
+      <cards>
+        <card>
+      <name>Great Flood</name>
+      <cardType>Flood</cardType>
+      <basePoints>32</basePoints>
+      <bonus></bonus>
+      <penalty>Blanks all Armies, Lands, and Flames</penalty>
+    </card><card>
+      <name>World Tree</name>
+      <cardType>Artifact</cardType>
+      <basePoints>2</basePoints>
+      <bonus>+50 if every card has a different suit</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Gem of Order</name>
+      <cardType>Artifact</cardType>
+      <basePoints>5</basePoints>
+      <bonus>+10 for 3-card run, +30 for 4-card run, +60 for 5-card run, +100 for 6-card run, +150 for 7-card run</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Rangers</name>
+      <cardType>Army</cardType>
+      <basePoints>5</basePoints>
+      <bonus>Clears the word Army from all penalties</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Princess</name>
+      <cardType>Leader</cardType>
+      <basePoints>2</basePoints>
+      <bonus>+8 for each Army, Wizard, and other Leader</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Illusionist</name>
+      <cardType>Wizard</cardType>
+      <basePoints>18</basePoints>
+      <bonus>+15 with any Weather; clears penalties on Weather</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Wildfire</name>
+      <cardType>Flame</cardType>
+      <basePoints>40</basePoints>
+      <bonus></bonus>
+      <penalty>Blanks all cards except Flames, Wizards, Weather, Weapons, Artifacts, Mountain, Great Flood, Island, Unicorn, and Dragon</penalty>
+    </card><card>
+      <name>Sword of Keth</name>
+      <cardType>Weapon</cardType>
+      <basePoints>7</basePoints>
+      <bonus>+10 with any Leader; +40 instead with Shield of Keth and any Leader</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Light Cavalry</name>
+      <cardType>Army</cardType>
+      <basePoints>17</basePoints>
+      <bonus></bonus>
+      <penalty>-2 for each Land</penalty>
+    </card><card>
+      <name>Candle</name>
+      <cardType>Flame</cardType>
+      <basePoints>2</basePoints>
+      <bonus>+100 with Book of Changes, Bell Tower, and any Wizard</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Swamp</name>
+      <cardType>Flood</cardType>
+      <basePoints>18</basePoints>
+      <bonus></bonus>
+      <penalty>-3 for each Army and Flame</penalty>
+    </card><card>
+      <name>Lightning</name>
+      <cardType>Flame</cardType>
+      <basePoints>11</basePoints>
+      <bonus>+30 with Rainstorm</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Earth Elemental</name>
+      <cardType>Land</cardType>
+      <basePoints>4</basePoints>
+      <bonus>+15 for each Land</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Whirlwind</name>
+      <cardType>Weather</cardType>
+      <basePoints>13</basePoints>
+      <bonus>+40 with Rainstorm and either Blizzard or Great Flood</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Forest</name>
+      <cardType>Land</cardType>
+      <basePoints>7</basePoints>
+      <bonus>+12 for each Beast and Elven Archers</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Elven Longbow</name>
+      <cardType>Weapon</cardType>
+      <basePoints>3</basePoints>
+      <bonus>+30 with Elven Archers, Warlord, or Beastmaster</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Shield of Keth</name>
+      <cardType>Weapon</cardType>
+      <basePoints>4</basePoints>
+      <bonus>+15 with any Leader; +40 instead with Sword of Keth and any Leader</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Empress</name>
+      <cardType>Leader</cardType>
+      <basePoints>15</basePoints>
+      <bonus>+10 for each Army</bonus>
+      <penalty>-5 for each other Leader</penalty>
+    </card><card>
+      <name>Water Elemental</name>
+      <cardType>Flood</cardType>
+      <basePoints>4</basePoints>
+      <bonus>+15 for each Flood</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Dragon</name>
+      <cardType>Beast</cardType>
+      <basePoints>30</basePoints>
+      <bonus></bonus>
+      <penalty>-40 unless with any Wizard</penalty>
+    </card><card>
+      <name>Dwarvish Infantry</name>
+      <cardType>Army</cardType>
+      <basePoints>15</basePoints>
+      <bonus>+10 for each other Army</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Protection Rune</name>
+      <cardType>Artifact</cardType>
+      <basePoints>1</basePoints>
+      <bonus>Clears penalties on all cards</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Warlord</name>
+      <cardType>Leader</cardType>
+      <basePoints>4</basePoints>
+      <bonus>+4 for each Army</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Queen</name>
+      <cardType>Leader</cardType>
+      <basePoints>6</basePoints>
+      <bonus>+5 for each Army; +20 for each Army if with King</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Smoke</name>
+      <cardType>Weather</cardType>
+      <basePoints>27</basePoints>
+      <bonus></bonus>
+      <penalty>Blanked unless with any Flame</penalty>
+    </card><card>
+      <name>Beastmaster</name>
+      <cardType>Wizard</cardType>
+      <basePoints>9</basePoints>
+      <bonus>+9 for each Beast</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>King</name>
+      <cardType>Leader</cardType>
+      <basePoints>8</basePoints>
+      <bonus>+5 for each Army; +20 for each Army if with Queen</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Enchantress</name>
+      <cardType>Wizard</cardType>
+      <basePoints>5</basePoints>
+      <bonus>+5 for each Land, Weather, and Beast</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Unicorn</name>
+      <cardType>Beast</cardType>
+      <basePoints>9</basePoints>
+      <bonus>+30 with Princess; +15 with Empress, Queen, or Enchantress</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Rainstorm</name>
+      <cardType>Weather</cardType>
+      <basePoints>8</basePoints>
+      <bonus>+10 for each Flood</bonus>
+      <penalty>Blanks all Flames except Lightning</penalty>
+    </card><card>
+      <name>Fire Elemental</name>
+      <cardType>Flame</cardType>
+      <basePoints>4</basePoints>
+      <bonus>+15 for each Flame</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Island</name>
+      <cardType>Flood</cardType>
+      <basePoints>14</basePoints>
+      <bonus>Clears penalty on one Flood or Flame</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Hydra</name>
+      <cardType>Beast</cardType>
+      <basePoints>12</basePoints>
+      <bonus>+28 with Swamp</bonus>
+      <penalty></penalty>
+    </card><card>
+      <name>Knights</name>
+      <cardType>Army</cardType>
+      <basePoints>20</basePoints>
+      <bonus></bonus>
+      <penalty>Blanked unless with any Leader</penalty>
+    </card><card>
+      <name>Blizzard</name>
+      <cardType>Weather</cardType>
+      <basePoints>30</basePoints>
+      <bonus></bonus>
+      <penalty>Blanks all Floods; -5 for each Army, Leader, Beast, and Flame</penalty>
+    </card><card>
+      <name>War Dirigible</name>
+      <cardType>Artifact</cardType>
+      <basePoints>35</basePoints>
+      <bonus></bonus>
+      <penalty>Blanked unless with any Army</penalty>
+    </card>
+      </cards>
+    </deck>
+      <discardPile>
+        
+      </discardPile>
+      <status>Running</status>
+      <turnPhase>MustDraw</turnPhase>
+    </gameState>

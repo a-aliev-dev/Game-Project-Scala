@@ -16,7 +16,7 @@ import scala.io.StdIn.readLine
   val playerName2 =
     if enteredName2.trim.isEmpty then "Spieler 2" else enteredName2.trim
 
-  val injector = Guice.createInjector(new GameModule(playerName1, playerName2))
+  val injector = Guice.createInjector(new GameModule(playerName1, playerName2, useJsonFileIO = true))
   val application = injector.getInstance(classOf[GameApplication])
 
   application.start()

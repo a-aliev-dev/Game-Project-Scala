@@ -1,6 +1,6 @@
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
-import controller.GameController
+import controller.impl.GameController
 import util.Observer
 import model.*
 import model.score.*

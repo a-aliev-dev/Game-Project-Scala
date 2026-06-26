@@ -9,7 +9,7 @@ import scala.swing.*
 import scala.swing.event.*
 import util.Observer
 import java.awt.{Color, Dimension, Font}
-import javax.swing.ScrollPaneConstants
+import scala.util.Try
 
 class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with Observer:
 
@@ -62,6 +62,8 @@ class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with
   private val drawDeckButton = new Button("Karte vom Deck ziehen")
   private val undoButton = new Button("Undo")
   private val redoButton = new Button("Redo")
+  private val saveButton = new Button("Speichern")
+  private val loadButton = new Button("Laden")
   private val refreshButton = new Button("Aktualisieren")
   private val stopButton = new Button("Spiel beenden")
 
@@ -109,6 +111,8 @@ class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with
         contents += drawDeckButton
         contents += undoButton
         contents += redoButton
+        contents += saveButton
+        contents += loadButton
         contents += refreshButton
 
       contents += new FlowPanel:
@@ -126,6 +130,8 @@ class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with
     drawDeckButton,
     undoButton,
     redoButton,
+    saveButton,
+    loadButton,
     refreshButton,
     stopButton
   )
@@ -141,6 +147,20 @@ class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with
 
     case ButtonClicked(`redoButton`) =>
       controller.redo()
+      refresh()
+
+    case ButtonClicked(`saveButton`) =>
+      Try(controller.save()).fold(
+        error => showMessage(s"Speichern fehlgeschlagen: ${error.getMessage}"),
+        _ => showMessage("Spielstand wurde gespeichert.")
+      )
+      refresh()
+
+    case ButtonClicked(`loadButton`) =>
+      Try(controller.load()).fold(
+        error => showMessage(s"Laden fehlgeschlagen: ${error.getMessage}"),
+        _ => showMessage("Spielstand wurde geladen.")
+      )
       refresh()
 
     case ButtonClicked(`refreshButton`) =>
@@ -343,9 +363,10 @@ class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with
 
       case CardType.Flame =>
         new Color(255, 220, 185)
-        
+
       case CardType.Wild =>
         new Color(255, 245, 200)
+
   // ===== Helpers =====
 
   private def sectionLabel(text: String): Label =

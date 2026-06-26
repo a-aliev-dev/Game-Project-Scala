@@ -1,0 +1,320 @@
+{
+  "players" : [ {
+    "name" : "Ali",
+    "hand" : {
+      "cards" : [ {
+        "name" : "Cavern",
+        "cardType" : "Land",
+        "basePoints" : 6,
+        "bonus" : "+25 with Dragon or Dwarvish Infantry; clears penalties on Weather",
+        "penalty" : ""
+      }, {
+        "name" : "Whirlwind",
+        "cardType" : "Weather",
+        "basePoints" : 13,
+        "bonus" : "+40 with Rainstorm and either Blizzard or Great Flood",
+        "penalty" : ""
+      }, {
+        "name" : "Forge",
+        "cardType" : "Flame",
+        "basePoints" : 9,
+        "bonus" : "+9 for each Weapon and Artifact",
+        "penalty" : ""
+      }, {
+        "name" : "Great Flood",
+        "cardType" : "Flood",
+        "basePoints" : 32,
+        "bonus" : "",
+        "penalty" : "Blanks all Armies, Lands, and Flames"
+      }, {
+        "name" : "Shield of Keth",
+        "cardType" : "Weapon",
+        "basePoints" : 4,
+        "bonus" : "+15 with any Leader; +40 instead with Sword of Keth and any Leader",
+        "penalty" : ""
+      }, {
+        "name" : "Illusionist",
+        "cardType" : "Wizard",
+        "basePoints" : 18,
+        "bonus" : "+15 with any Weather; clears penalties on Weather",
+        "penalty" : ""
+      }, {
+        "name" : "Empress",
+        "cardType" : "Leader",
+        "basePoints" : 15,
+        "bonus" : "+10 for each Army",
+        "penalty" : "-5 for each other Leader"
+      } ]
+    }
+  }, {
+    "name" : "Amil",
+    "hand" : {
+      "cards" : [ {
+        "name" : "Sword of Keth",
+        "cardType" : "Weapon",
+        "basePoints" : 7,
+        "bonus" : "+10 with any Leader; +40 instead with Shield of Keth and any Leader",
+        "penalty" : ""
+      }, {
+        "name" : "Beastmaster",
+        "cardType" : "Wizard",
+        "basePoints" : 9,
+        "bonus" : "+9 for each Beast",
+        "penalty" : ""
+      }, {
+        "name" : "War Dirigible",
+        "cardType" : "Artifact",
+        "basePoints" : 35,
+        "bonus" : "",
+        "penalty" : "Blanked unless with any Army"
+      }, {
+        "name" : "Basilisk",
+        "cardType" : "Beast",
+        "basePoints" : 35,
+        "bonus" : "",
+        "penalty" : "Blanks all Armies, Leaders, and other Beasts"
+      }, {
+        "name" : "Island",
+        "cardType" : "Flood",
+        "basePoints" : 14,
+        "bonus" : "Clears penalty on one Flood or Flame",
+        "penalty" : ""
+      }, {
+        "name" : "Wildfire",
+        "cardType" : "Flame",
+        "basePoints" : 40,
+        "bonus" : "",
+        "penalty" : "Blanks all cards except Flames, Wizards, Weather, Weapons, Artifacts, Mountain, Great Flood, Island, Unicorn, and Dragon"
+      }, {
+        "name" : "King",
+        "cardType" : "Leader",
+        "basePoints" : 8,
+        "bonus" : "+5 for each Army; +20 for each Army if with Queen",
+        "penalty" : ""
+      } ]
+    }
+  } ],
+  "currentPlayerIndex" : 0,
+  "deck" : {
+    "cards" : [ {
+      "name" : "Protection Rune",
+      "cardType" : "Artifact",
+      "basePoints" : 1,
+      "bonus" : "Clears penalties on all cards",
+      "penalty" : ""
+    }, {
+      "name" : "Warlord",
+      "cardType" : "Leader",
+      "basePoints" : 4,
+      "bonus" : "+4 for each Army",
+      "penalty" : ""
+    }, {
+      "name" : "World Tree",
+      "cardType" : "Artifact",
+      "basePoints" : 2,
+      "bonus" : "+50 if every card has a different suit",
+      "penalty" : ""
+    }, {
+      "name" : "Smoke",
+      "cardType" : "Weather",
+      "basePoints" : 27,
+      "bonus" : "",
+      "penalty" : "Blanked unless with any Flame"
+    }, {
+      "name" : "Gem of Order",
+      "cardType" : "Artifact",
+      "basePoints" : 5,
+      "bonus" : "+10 for 3-card run, +30 for 4-card run, +60 for 5-card run, +100 for 6-card run, +150 for 7-card run",
+      "penalty" : ""
+    }, {
+      "name" : "Hydra",
+      "cardType" : "Beast",
+      "basePoints" : 12,
+      "bonus" : "+28 with Swamp",
+      "penalty" : ""
+    }, {
+      "name" : "Forest",
+      "cardType" : "Land",
+      "basePoints" : 7,
+      "bonus" : "+12 for each Beast and Elven Archers",
+      "penalty" : ""
+    }, {
+      "name" : "Bell Tower",
+      "cardType" : "Land",
+      "basePoints" : 8,
+      "bonus" : "+15 with any Wizard",
+      "penalty" : ""
+    }, {
+      "name" : "Earth Elemental",
+      "cardType" : "Land",
+      "basePoints" : 4,
+      "bonus" : "+15 for each Land",
+      "penalty" : ""
+    }, {
+      "name" : "Lightning",
+      "cardType" : "Flame",
+      "basePoints" : 11,
+      "bonus" : "+30 with Rainstorm",
+      "penalty" : ""
+    }, {
+      "name" : "Dragon",
+      "cardType" : "Beast",
+      "basePoints" : 30,
+      "bonus" : "",
+      "penalty" : "-40 unless with any Wizard"
+    }, {
+      "name" : "Elven Archers",
+      "cardType" : "Army",
+      "basePoints" : 10,
+      "bonus" : "+5 for each Weather",
+      "penalty" : ""
+    }, {
+      "name" : "Warhorse",
+      "cardType" : "Beast",
+      "basePoints" : 6,
+      "bonus" : "+14 with any Leader or Wizard",
+      "penalty" : ""
+    }, {
+      "name" : "Unicorn",
+      "cardType" : "Beast",
+      "basePoints" : 9,
+      "bonus" : "+30 with Princess; +15 with Empress, Queen, or Enchantress",
+      "penalty" : ""
+    }, {
+      "name" : "Princess",
+      "cardType" : "Leader",
+      "basePoints" : 2,
+      "bonus" : "+8 for each Army, Wizard, and other Leader",
+      "penalty" : ""
+    }, {
+      "name" : "Warlock Lord",
+      "cardType" : "Wizard",
+      "basePoints" : 25,
+      "bonus" : "",
+      "penalty" : "-10 for each Leader and other Wizard"
+    }, {
+      "name" : "Book of Changes",
+      "cardType" : "Artifact",
+      "basePoints" : 3,
+      "bonus" : "May change the suit of one other card",
+      "penalty" : ""
+    }, {
+      "name" : "Dwarvish Infantry",
+      "cardType" : "Army",
+      "basePoints" : 15,
+      "bonus" : "+10 for each other Army",
+      "penalty" : ""
+    }, {
+      "name" : "Knights",
+      "cardType" : "Army",
+      "basePoints" : 20,
+      "bonus" : "",
+      "penalty" : "Blanked unless with any Leader"
+    }, {
+      "name" : "Queen",
+      "cardType" : "Leader",
+      "basePoints" : 6,
+      "bonus" : "+5 for each Army; +20 for each Army if with King",
+      "penalty" : ""
+    }, {
+      "name" : "Candle",
+      "cardType" : "Flame",
+      "basePoints" : 2,
+      "bonus" : "+100 with Book of Changes, Bell Tower, and any Wizard",
+      "penalty" : ""
+    }, {
+      "name" : "Necromancer",
+      "cardType" : "Wizard",
+      "basePoints" : 3,
+      "bonus" : "May take one Army, Leader, Wizard, or Beast from discard at end",
+      "penalty" : ""
+    }, {
+      "name" : "Elven Longbow",
+      "cardType" : "Weapon",
+      "basePoints" : 3,
+      "bonus" : "+30 with Elven Archers, Warlord, or Beastmaster",
+      "penalty" : ""
+    }, {
+      "name" : "Enchantress",
+      "cardType" : "Wizard",
+      "basePoints" : 5,
+      "bonus" : "+5 for each Land, Weather, and Beast",
+      "penalty" : ""
+    }, {
+      "name" : "Water Elemental",
+      "cardType" : "Flood",
+      "basePoints" : 4,
+      "bonus" : "+15 for each Flood",
+      "penalty" : ""
+    }, {
+      "name" : "Air Elemental",
+      "cardType" : "Weather",
+      "basePoints" : 4,
+      "bonus" : "+15 for each Weather",
+      "penalty" : ""
+    }, {
+      "name" : "Rainstorm",
+      "cardType" : "Weather",
+      "basePoints" : 8,
+      "bonus" : "+10 for each Flood",
+      "penalty" : "Blanks all Flames except Lightning"
+    }, {
+      "name" : "Warship",
+      "cardType" : "Weapon",
+      "basePoints" : 23,
+      "bonus" : "",
+      "penalty" : "Blanked unless with any Flood"
+    }, {
+      "name" : "Swamp",
+      "cardType" : "Flood",
+      "basePoints" : 18,
+      "bonus" : "",
+      "penalty" : "-3 for each Army and Flame"
+    }, {
+      "name" : "Fountain of Life",
+      "cardType" : "Flood",
+      "basePoints" : 1,
+      "bonus" : "Adds base strength of one Weapon, Flood, Flame, Land, or Weather",
+      "penalty" : ""
+    }, {
+      "name" : "Light Cavalry",
+      "cardType" : "Army",
+      "basePoints" : 17,
+      "bonus" : "",
+      "penalty" : "-2 for each Land"
+    }, {
+      "name" : "Rangers",
+      "cardType" : "Army",
+      "basePoints" : 5,
+      "bonus" : "Clears the word Army from all penalties",
+      "penalty" : ""
+    }, {
+      "name" : "Mountain",
+      "cardType" : "Land",
+      "basePoints" : 9,
+      "bonus" : "Clears penalties on Floods",
+      "penalty" : ""
+    }, {
+      "name" : "Magic Wand",
+      "cardType" : "Weapon",
+      "basePoints" : 1,
+      "bonus" : "+25 with any Wizard",
+      "penalty" : ""
+    }, {
+      "name" : "Blizzard",
+      "cardType" : "Weather",
+      "basePoints" : 30,
+      "bonus" : "",
+      "penalty" : "Blanks all Floods; -5 for each Army, Leader, Beast, and Flame"
+    }, {
+      "name" : "Fire Elemental",
+      "cardType" : "Flame",
+      "basePoints" : 4,
+      "bonus" : "+15 for each Flame",
+      "penalty" : ""
+    } ]
+  },
+  "discardPile" : [ ],
+  "status" : "Running",
+  "turnPhase" : "MustDraw"
+}

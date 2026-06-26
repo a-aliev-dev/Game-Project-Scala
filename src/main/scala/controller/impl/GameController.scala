@@ -1,21 +1,29 @@
-package controller
+package controller.impl
 
 import com.google.inject.Inject
-import model.*
+import controller.ControllerInterface
+import controller.DrawCardCommand
+import controller.UndoManager
+import controller.UndoManagerInterface
+import fileio.FileIOInterface
+import fileio.json.FileIOJson
+import model.GameState
+import model.GameStateFactory
 import model.interfaces.*
-import model.score.*
+import model.score.FantasyRealmsScoreStrategy
+import model.score.ScoreStrategy
 import model.state.*
 
 class GameController @Inject() (
     playerName1: String,
     playerName2: String,
     private val scoreStrategy: ScoreStrategy = FantasyRealmsScoreStrategy,
-    private val undoManager: UndoManagerInterface = new UndoManager()
+    private val undoManager: UndoManagerInterface = new UndoManager(),
+    private val fileIO: FileIOInterface = new FileIOJson()
 ) extends ControllerInterface:
 
   private var gameState: GameState =
     GameStateFactory.createDefaultGameState(playerName1, playerName2)
-
 
   def getGameState: IGameState =
     gameState
@@ -86,6 +94,17 @@ class GameController @Inject() (
 
   def redo(): Unit =
     undoManager.redoStep()
+
+  def save(): Unit =
+    fileIO.save(gameState)
+
+  def load(): Unit =
+    fileIO.load match
+      case loadedState: GameState =>
+        gameState = loadedState
+        notifyObservers()
+      case _ =>
+        throw new IllegalArgumentException("Loaded state is not a GameState implementation")
 
   def switchPlayer(): Unit =
     gameState = gameState.switchPlayer

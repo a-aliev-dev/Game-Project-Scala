@@ -30,6 +30,8 @@ class TextUI @Inject() (controller: ControllerInterface) extends Observer:
       println("8. Anzahl Karten im Deck anzeigen")
       println("9. Undo")
       println("10. Redo")
+      println("11. Spiel speichern")
+      println("12. Spiel laden")
       println("0. Beenden")
       print("Auswahl: ")
 
@@ -94,6 +96,18 @@ class TextUI @Inject() (controller: ControllerInterface) extends Observer:
         case Some(10) =>
           controller.redo()
           println("Redo ausgefuehrt.")
+
+        case Some(11) =>
+          Try(controller.save()).fold(
+            error => println(s"Speichern fehlgeschlagen: ${error.getMessage}"),
+            _ => println("Spielstand wurde gespeichert.")
+          )
+
+        case Some(12) =>
+          Try(controller.load()).fold(
+            error => println(s"Laden fehlgeschlagen: ${error.getMessage}"),
+            _ => println("Spielstand wurde geladen.")
+          )
 
         case Some(0) =>
           controller.stopGame()
