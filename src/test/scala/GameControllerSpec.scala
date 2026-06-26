@@ -174,7 +174,7 @@ class GameControllerSpec extends AnyWordSpec with Matchers:
       val card = Card("Ranger", CardType.Army, 5)
 
       val stateWithDiscard =
-        controller.getGameState.copy(discardPile = List(card), turnPhase = MustDraw)
+        controller.getGameState.asInstanceOf[model.GameState].copy(discardPile = List(card), turnPhase = MustDraw)
 
       controller.setGameState(stateWithDiscard)
 

@@ -1,8 +1,8 @@
 package view.render
 
-import model.Card
+import model.interfaces.ICard
 
-class HandRenderer(playerName: String, cards: List[Card]) extends Renderer:
+class HandRenderer(playerName: String, cards: List[ICard]) extends Renderer:
 
   override protected def title: String =
     s"Hand von $playerName"

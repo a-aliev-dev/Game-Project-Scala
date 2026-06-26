@@ -1,5 +1,8 @@
 package model
-case class Deck(cards: List[Card]):
+
+import model.interfaces.{ICard, IDeck}
+
+case class Deck(cards: List[Card]) extends IDeck:
 
   def isEmpty: Boolean =
     cards.isEmpty
@@ -7,7 +10,7 @@ case class Deck(cards: List[Card]):
   def size: Int =
     cards.size
 
-  def draw: (Option[Card], Deck) =
+  def draw: (Option[ICard], IDeck) =
     cards match
       case Nil =>
         (None, this)

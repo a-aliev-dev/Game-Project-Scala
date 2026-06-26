@@ -1,5 +1,6 @@
 package model
 
+import model.interfaces.{ICard, IDeck, IGameState, IPlayer}
 import model.state.*
 
 case class GameState(
@@ -9,7 +10,7 @@ case class GameState(
     discardPile: List[Card] = Nil,
     status: GameStatus = Running,
     turnPhase: TurnPhase = MustDraw
-):
+) extends IGameState:
 
   private val MaxDiscardPileSize = 10
 
@@ -23,18 +24,18 @@ case class GameState(
     val (drawnCard, newDeck) = deck.draw
 
     drawnCard match
-      case Some(card) =>
+      case Some(card: Card) =>
         val player = players(playerIndex)
-        val updatedPlayer = player.addCard(card)
+        val updatedPlayer = player.addCard(card).asInstanceOf[Player]
         val updatedPlayers = players.updated(playerIndex, updatedPlayer)
 
         copy(
           players = updatedPlayers,
-          deck = newDeck,
+          deck = newDeck.asInstanceOf[Deck],
           turnPhase = MustDiscard
         )
 
-      case None =>
+      case _ =>
         this
 
   def drawFromDiscardPileForCurrentPlayer(index: Int): GameState =
@@ -43,7 +44,7 @@ case class GameState(
     else
       val card = discardPile(index)
       val updatedDiscardPile = discardPile.patch(index, Nil, 1)
-      val updatedPlayer = currentPlayer.addCard(card)
+      val updatedPlayer = currentPlayer.addCard(card).asInstanceOf[Player]
       val updatedPlayers = players.updated(currentPlayerIndex, updatedPlayer)
 
       copy(
@@ -56,8 +57,8 @@ case class GameState(
     val (removedCard, updatedPlayer) = currentPlayer.removeCardAt(index)
 
     removedCard match
-      case Some(card) =>
-        val updatedPlayers = players.updated(currentPlayerIndex, updatedPlayer)
+      case Some(card: Card) =>
+        val updatedPlayers = players.updated(currentPlayerIndex, updatedPlayer.asInstanceOf[Player])
         val updatedDiscardPile = discardPile :+ card
         val nextPlayerIndex = (currentPlayerIndex + 1) % players.size
         val nextStatus =
@@ -72,7 +73,7 @@ case class GameState(
           turnPhase = MustDraw
         )
 
-      case None =>
+      case _ =>
         this
 
   def dealStartingCards(amount: Int): GameState =

@@ -1,7 +1,9 @@
 package view
 
-import controller.GameController
+import com.google.inject.Inject
+import controller.ControllerInterface
 import model.*
+import model.interfaces.ICard
 import model.state.*
 import scala.swing.*
 import scala.swing.event.*
@@ -9,7 +11,7 @@ import util.Observer
 import java.awt.{Color, Dimension, Font}
 import javax.swing.ScrollPaneConstants
 
-class GameGUI(controller: GameController) extends MainFrame with Observer:
+class GameGUI @Inject() (controller: ControllerInterface) extends MainFrame with Observer:
 
   title = "Fantasy Realms GUI"
   preferredSize = new Dimension(1250, 850)
@@ -57,15 +59,7 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
 
   // ===== Controls =====
 
-  private val handIndexField = new TextField:
-    columns = 5
-
-  private val discardIndexField = new TextField:
-    columns = 5
-
   private val drawDeckButton = new Button("Karte vom Deck ziehen")
-  private val takeDiscardButton = new Button("Vom Ablagestapel nehmen")
-  private val discardHandButton = new Button("Karte aus Hand abwerfen")
   private val undoButton = new Button("Undo")
   private val redoButton = new Button("Redo")
   private val refreshButton = new Button("Aktualisieren")
@@ -108,7 +102,7 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
         preferredSize = new Dimension(1000, 60)
     ) = BorderPanel.Position.Center
 
-    layout(new GridPanel(4, 1):
+    layout(new GridPanel(3, 1):
       border = Swing.EmptyBorder(10, 10, 10, 10)
 
       contents += new FlowPanel:
@@ -118,16 +112,11 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
         contents += refreshButton
 
       contents += new FlowPanel:
-        contents += new Label("Ablagestapel Nummer:")
-        contents += discardIndexField
-        contents += takeDiscardButton
+        contents += new Label("Tipp: Klicke auf eine Karte im Ablagestapel, um sie zu nehmen.")
 
       contents += new FlowPanel:
-        contents += new Label("Handkarten Nummer:")
-        contents += handIndexField
-        contents += discardHandButton
-
-      contents += new FlowPanel:
+        contents += new Label("Tipp: Klicke auf eine Handkarte, um sie abzuwerfen.")
+        contents += Swing.HStrut(25)
         contents += stopButton
     ) = BorderPanel.Position.South
 
@@ -135,8 +124,6 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
 
   listenTo(
     drawDeckButton,
-    takeDiscardButton,
-    discardHandButton,
     undoButton,
     redoButton,
     refreshButton,
@@ -146,22 +133,6 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
   reactions += {
     case ButtonClicked(`drawDeckButton`) =>
       controller.drawCard()
-      refresh()
-
-    case ButtonClicked(`takeDiscardButton`) =>
-      readIndex(discardIndexField.text) match
-        case Some(index) =>
-          controller.drawFromDiscardPile(index)
-        case None =>
-          showMessage("Bitte eine gueltige Nummer fuer den Ablagestapel eingeben.")
-      refresh()
-
-    case ButtonClicked(`discardHandButton`) =>
-      readIndex(handIndexField.text) match
-        case Some(index) =>
-          controller.discardCardFromCurrentPlayer(index)
-        case None =>
-          showMessage("Bitte eine gueltige Nummer fuer die Handkarte eingeben.")
       refresh()
 
     case ButtonClicked(`undoButton`) =>
@@ -214,7 +185,7 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
       handCardsPanel.contents += new Label("Keine Karten auf der Hand.")
     else
       cards.zipWithIndex.foreach { case (card, index) =>
-        handCardsPanel.contents += createCardPanel(card, index + 1)
+        handCardsPanel.contents += createHandCardPanel(card, index)
       }
 
     handCardsPanel.revalidate()
@@ -229,7 +200,7 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
       discardCardsPanel.contents += new Label("Der Ablagestapel ist leer.")
     else
       cards.zipWithIndex.foreach { case (card, index) =>
-        discardCardsPanel.contents += createCardPanel(card, index + 1)
+        discardCardsPanel.contents += createDiscardCardPanel(card, index)
       }
 
     discardCardsPanel.revalidate()
@@ -237,15 +208,48 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
 
   // ===== Card Rendering =====
 
-  private def createCardPanel(card: Card, number: Int): BoxPanel =
+  private def createHandCardPanel(card: ICard, index: Int): BoxPanel =
+    createCardPanel(
+      card = card,
+      number = index + 1,
+      clickHint = "Klicken zum Abwerfen",
+      onClick = () =>
+        if controller.currentPhase == MustDiscard then
+          controller.discardCardFromCurrentPlayer(index)
+        else
+          showMessage("Du musst zuerst eine Karte ziehen, bevor du eine Handkarte abwerfen kannst.")
+        refresh()
+    )
+
+  private def createDiscardCardPanel(card: ICard, index: Int): BoxPanel =
+    createCardPanel(
+      card = card,
+      number = index + 1,
+      clickHint = "Klicken zum Aufnehmen",
+      onClick = () =>
+        if controller.currentPhase == MustDraw then
+          controller.drawFromDiscardPile(index)
+        else
+          showMessage("Du hast in diesem Zug bereits eine Karte gezogen. Jetzt musst du eine Karte abwerfen.")
+        refresh()
+    )
+
+  private def createCardPanel(card: ICard, number: Int, clickHint: String, onClick: () => Unit): BoxPanel =
     val cardColor = colorForCardType(card.cardType)
 
     new BoxPanel(Orientation.Vertical):
-      preferredSize = new Dimension(190, 245)
-      minimumSize = new Dimension(190, 245)
-      maximumSize = new Dimension(190, 245)
+      preferredSize = new Dimension(190, 265)
+      minimumSize = new Dimension(190, 265)
+      maximumSize = new Dimension(190, 265)
       background = cardColor
       opaque = true
+      peer.setToolTipText(clickHint)
+      peer.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR))
+      listenTo(mouse.clicks)
+      reactions += {
+        case _: MouseClicked =>
+          onClick()
+      }
 
       border = Swing.CompoundBorder(
         Swing.LineBorder(Color.DARK_GRAY, 2),
@@ -253,6 +257,7 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
       )
 
       contents += cardHeader(s"Karte $number")
+      contents += cardHint(clickHint)
       contents += Swing.VStrut(5)
       contents += cardTitle(card.name, cardColor)
       contents += Swing.VStrut(8)
@@ -265,6 +270,12 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
   private def cardHeader(text: String): Label =
     val label = new Label(text)
     label.peer.setFont(new Font("Arial", Font.BOLD, 14))
+    label.horizontalAlignment = Alignment.Center
+    label
+
+  private def cardHint(text: String): Label =
+    val label = new Label(text)
+    label.peer.setFont(new Font("Arial", Font.PLAIN, 11))
     label.horizontalAlignment = Alignment.Center
     label
 
@@ -290,7 +301,7 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
       peer.setFont(new Font("Arial", Font.PLAIN, 13))
     area
 
-  private def descriptionText(card: Card): String =
+  private def descriptionText(card: ICard): String =
     val bonusText =
       if card.bonus.nonEmpty then s"Bonus: ${card.bonus}"
       else "Bonus: -"
@@ -366,9 +377,6 @@ class GameGUI(controller: GameController) extends MainFrame with Observer:
           base
     else
       base
-
-  private def readIndex(text: String): Option[Int] =
-    text.trim.toIntOption.map(_ - 1)
 
   private def showMessage(message: String): Unit =
     Dialog.showMessage(

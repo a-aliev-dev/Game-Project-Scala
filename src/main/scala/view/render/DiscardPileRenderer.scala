@@ -1,8 +1,8 @@
 package view.render
 
-import model.Card
+import model.interfaces.ICard
 
-class DiscardPileRenderer(cards: List[Card]) extends Renderer:
+class DiscardPileRenderer(cards: List[ICard]) extends Renderer:
 
   override protected def title: String =
     "Ablagestapel"

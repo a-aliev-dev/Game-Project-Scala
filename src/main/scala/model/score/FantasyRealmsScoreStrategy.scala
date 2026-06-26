@@ -1,10 +1,11 @@
 package model.score
 
-import model.*
+import model.CardType
+import model.interfaces.{ICard, IHand}
 
 object FantasyRealmsScoreStrategy extends ScoreStrategy:
 
-  private case class EvalCard(index: Int, card: Card, effectiveType: CardType)
+  private case class EvalCard(index: Int, card: ICard, effectiveType: CardType)
 
   private val allCardTypes: List[CardType] =
     List(
@@ -20,7 +21,7 @@ object FantasyRealmsScoreStrategy extends ScoreStrategy:
       CardType.Flame
     )
 
-  override def calculate(hand: Hand): Int =
+  override def calculate(hand: IHand): Int =
     val typeOverrideOptions: List[Option[(Int, CardType)]] =
       val baseOption = List(None)
 
@@ -43,7 +44,7 @@ object FantasyRealmsScoreStrategy extends ScoreStrategy:
       .getOrElse(0)
 
   private def bestScoreWithIslandChoice(
-      hand: Hand,
+      hand: IHand,
       typeOverride: Option[(Int, CardType)]
   ): Int =
     val cards = buildEvalCards(hand, typeOverride)
@@ -64,7 +65,7 @@ object FantasyRealmsScoreStrategy extends ScoreStrategy:
       .getOrElse(0)
 
   private def buildEvalCards(
-      hand: Hand,
+      hand: IHand,
       typeOverride: Option[(Int, CardType)]
   ): List[EvalCard] =
     hand.cards.zipWithIndex.map { case (card, index) =>

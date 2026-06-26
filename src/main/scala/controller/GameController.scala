@@ -1,40 +1,44 @@
 package controller
 
+import com.google.inject.Inject
 import model.*
+import model.interfaces.*
 import model.score.*
 import model.state.*
-import util.Observable
 
-class GameController(
+class GameController @Inject() (
     playerName1: String,
     playerName2: String,
-    private val scoreStrategy: ScoreStrategy = FantasyRealmsScoreStrategy
-) extends Observable:
+    private val scoreStrategy: ScoreStrategy = FantasyRealmsScoreStrategy,
+    private val undoManager: UndoManagerInterface = new UndoManager()
+) extends ControllerInterface:
 
   private var gameState: GameState =
-  GameStateFactory.createDefaultGameState(playerName1, playerName2)
+    GameStateFactory.createDefaultGameState(playerName1, playerName2)
 
-  private val undoManager =
-    new UndoManager()
 
-  def getGameState: GameState =
+  def getGameState: IGameState =
     gameState
 
-  def setGameState(state: GameState): Unit =
-    gameState = state
-    notifyObservers()
+  def setGameState(state: IGameState): Unit =
+    state match
+      case concreteState: GameState =>
+        gameState = concreteState
+        notifyObservers()
+      case _ =>
+        throw new IllegalArgumentException("GameController needs a GameState implementation")
 
   def dealStartingCards(amount: Int): Unit =
     gameState = gameState.dealStartingCards(amount)
     notifyObservers()
 
-  def currentPlayer: Player =
+  def currentPlayer: IPlayer =
     gameState.currentPlayer
 
   def currentPhase: TurnPhase =
     gameState.turnPhase
 
-  def drawCard(): Option[Card] =
+  def drawCard(): Option[ICard] =
     if gameState.turnPhase != MustDraw then
       None
     else
@@ -47,7 +51,7 @@ class GameController(
       else
         None
 
-  def drawCardDirectly(): Option[Card] =
+  def drawCardDirectly(): Option[ICard] =
     if gameState.deck.isEmpty || gameState.turnPhase != MustDraw then
       None
     else
@@ -55,7 +59,7 @@ class GameController(
       notifyObservers()
       gameState.currentPlayer.hand.cards.lastOption
 
-  def drawFromDiscardPile(index: Int): Option[Card] =
+  def drawFromDiscardPile(index: Int): Option[ICard] =
     if gameState.turnPhase != MustDraw then
       None
     else if index < 0 || index >= gameState.discardPile.size then
@@ -66,7 +70,7 @@ class GameController(
       notifyObservers()
       Some(card)
 
-  def discardCardFromCurrentPlayer(index: Int): Option[Card] =
+  def discardCardFromCurrentPlayer(index: Int): Option[ICard] =
     if gameState.turnPhase != MustDiscard then
       None
     else if index < 0 || index >= gameState.currentPlayer.hand.cards.size then
@@ -97,7 +101,7 @@ class GameController(
   def deckSize: Int =
     gameState.deck.size
 
-  def discardPile: List[Card] =
+  def discardPile: List[ICard] =
     gameState.discardPile
 
   def discardPileSize: Int =
@@ -123,5 +127,5 @@ class GameController(
       if winners.size == 1 then Some(winners.head)
       else Some(winners.mkString("Unentschieden zwischen ", " und ", ""))
 
-  def currentPlayerHand: Hand =
+  def currentPlayerHand: IHand =
     gameState.currentPlayer.hand

@@ -1,12 +1,13 @@
 package view
 
-import controller.GameController
+import com.google.inject.Inject
+import controller.ControllerInterface
 import model.state.*
 import scala.util.Try
 import util.Observer
 import view.render.*
 
-class TextUI(controller: GameController) extends Observer:
+class TextUI @Inject() (controller: ControllerInterface) extends Observer:
 
   override def update(): Unit =
     println("Spielzustand wurde aktualisiert.")
@@ -135,5 +136,5 @@ class TextUI(controller: GameController) extends Observer:
     showAllPoints()
     controller.winnerName.foreach(winner => println(s"Gewinner: $winner"))
 
-  private def formatCard(card: model.Card): String =
+  private def formatCard(card: model.interfaces.ICard): String =
     s"${card.name} (${card.cardType}, ${card.basePoints})"

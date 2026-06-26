@@ -1,13 +1,17 @@
 package model
 
-case class Player(name: String, hand: Hand):
+import model.interfaces.{ICard, IHand, IPlayer}
 
-  def addCard(card: Card): Player =
-    copy(hand = hand.addCard(card))
+case class Player(name: String, hand: Hand) extends IPlayer:
 
-  def removeCardAt(index: Int): (Option[Card], Player) =
+  def addCard(card: ICard): IPlayer =
+    card match
+      case c: Card => copy(hand = hand.copy(cards = hand.cards :+ c))
+      case _       => this
+
+  def removeCardAt(index: Int): (Option[ICard], IPlayer) =
     val (removedCard, updatedHand) = hand.removeCardAt(index)
-    (removedCard, copy(hand = updatedHand))
+    (removedCard, copy(hand = updatedHand.asInstanceOf[Hand]))
 
   def basePoints: Int =
     hand.totalBasePoints

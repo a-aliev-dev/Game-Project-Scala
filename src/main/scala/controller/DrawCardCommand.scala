@@ -1,11 +1,11 @@
 package controller
 
-import model.GameState
+import model.interfaces.IGameState
 
-class DrawCardCommand(controller: GameController) extends Command:
+class DrawCardCommand(controller: ControllerInterface) extends Command:
 
-  private var previousState: Option[GameState] = None
-  private var nextState: Option[GameState] = None
+  private var previousState: Option[IGameState] = None
+  private var nextState: Option[IGameState] = None
 
   override def doStep(): Unit =
     previousState = Some(controller.getGameState)

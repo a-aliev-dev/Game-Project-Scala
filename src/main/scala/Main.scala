@@ -1,6 +1,5 @@
-import controller.GameController
-import view.TextUI
-import view.GameGUI
+import com.google.inject.Guice
+import di.GameModule
 import scala.io.StdIn.readLine
 
 @main def runGame(): Unit =
@@ -17,15 +16,7 @@ import scala.io.StdIn.readLine
   val playerName2 =
     if enteredName2.trim.isEmpty then "Spieler 2" else enteredName2.trim
 
-  val controller = GameController(playerName1, playerName2)
+  val injector = Guice.createInjector(new GameModule(playerName1, playerName2))
+  val application = injector.getInstance(classOf[GameApplication])
 
-  val tui = TextUI(controller)
-  val gui = GameGUI(controller)
-
-  controller.addObserver(tui)
-  controller.addObserver(gui)
-
-  controller.dealStartingCards(7)
-
-  gui.showGUI()
-  tui.start()
+  application.start()
